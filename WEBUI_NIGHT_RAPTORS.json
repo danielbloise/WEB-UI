@@ -43,12 +43,12 @@
 			},
 			{
 				"layout": 1,
-				"buttontext": "COMANDOS",
+				"buttontext": "COMANDOS/RATES",
 				"imageurl": "https://img.freepik.com/vetores-gratis/codigo-binario-de-estilo-matriz-fundo-digital-com-numeros-decrescentes_1017-25336.jpg?w=5000",
 				"content": [
 					{
 						"title": "Comandos",
-						"text": "/engrams\r\nDesbloqueia os engramas até os pontos disponiveis.\r\n\r\n/mindwipe\r\nusa um tonico de lavagem cerebral para reset dos status e pontos de engramas.\r\n\r\n/store\r\nAdiciona itens ao cofre padrão. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take\r\nObtém todos os itens do cofre padrão.\r\n/store {nome}\r\nAdiciona itens ao cofre {nome}. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take {nome}\r\nObtém itens do cofre {nome}.\r\n/list\r\nLista todos os cofres disponíveis."
+						"text": "/engrams\r\nDesbloqueia os engramas até os pontos disponiveis.\r\n\r\n/mindwipe\r\nusa um tonico de lavagem cerebral para reset dos status e pontos de engramas.\r\n\r\n/store\r\nAdiciona itens ao cofre padrão. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take\r\nObtém todos os itens do cofre padrão.\r\n/store {nome}\r\nAdiciona itens ao cofre {nome}. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take {nome}\r\nObtém itens do cofre {nome}.\r\n/list\r\nLista todos os cofres disponíveis.\r\n\r\n\r\n\r\n                                                                                                      RATES\r\n\r\nO que está configurado\r\n\r\nXP 3x \r\n\r\nDoma 3x\r\n\r\nFarm 3x\r\n\r\nBreed 3x\r\n\r\nLoot 100% vanilla\r\n\r\nStatus 100% oficiais\r\n\r\nPvE sem decay\r\n\r\nImprint instantaneo"
 					}
 				]
 			}
