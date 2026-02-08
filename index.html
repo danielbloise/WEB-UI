@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AM BEBIDAS - Gestão de Marcas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --danger: #ef4444;
+            --success: #10b981;
+            --bg-body: #f1f5f9;
+            --bg-panel: white;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+            --bg-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+
+        /* TEMA ESCURO */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-panel: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border: #334155;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-body); margin: 0; padding: 20px; 
+            color: var(--text-main);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container { max-width: 1250px; margin: auto; }
+
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-text { font-size: 28px; font-weight: 800; background: var(--bg-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* BOTÃO TEMA */
+        .theme-toggle {
+            cursor: pointer; padding: 10px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg-panel); font-size: 20px; transition: 0.2s;
+        }
+
+        #alert-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .alert-box {
+            background: var(--bg-panel); padding: 40px; border-radius: 30px; text-align: center;
+            max-width: 400px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 2px solid var(--danger);
+        }
+
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { 
+            background: var(--bg-panel); padding: 25px; border-radius: 24px; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); border: 1px solid var(--border);
+        }
+        .card h3 { margin: 0; font-size: 12px; color: var(--text-sub); text-transform: uppercase; }
+        .card p { margin: 8px 0 0; font-size: 26px; font-weight: 800; }
+
+        .content-grid { display: grid; grid-template-columns: 380px 1fr; gap: 25px; }
+        .panel { background: var(--bg-panel); padding: 30px; border-radius: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid var(--border); }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        tr { background: var(--bg-panel); border-radius: 15px; }
+        td { padding: 15px; font-weight: 600; vertical-align: middle; border-bottom: 1px solid var(--border); }
+
+        .item-brand { display: flex; align-items: center; gap: 15px; }
+        .brand-frame {
+            width: 48px; height: 48px; border-radius: 12px; background: white;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid #e2e8f0; padding: 4px; overflow: hidden; flex-shrink: 0;
+        }
+        .brand-img { width: 100%; height: 100%; object-fit: contain; }
+
+        .selector { display: inline-flex; align-items: center; background: var(--bg-body); padding: 5px; border-radius: 12px; }
+        .btn-step { 
+            width: 32px; height: 32px; border-radius: 8px; border: none; 
+            background: var(--bg-panel); color: var(--text-main); cursor: pointer; font-weight: 800; display: flex; align-items: center; justify-content: center; 
+        }
+        .btn-step.plus { background: var(--primary); color: white; }
+        .val-vendas { min-width: 40px; text-align: center; font-size: 16px; }
+
+        label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 5px; color: var(--text-sub); }
+        input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 12px; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; background: var(--bg-body); color: var(--text-main); }
+        .btn-main { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 800; cursor: pointer; background: var(--bg-gradient); }
+
+        .file-label { display: block; background: var(--bg-body); border: 2px dashed var(--border); padding: 10px; text-align: center; border-radius: 12px; cursor: pointer; margin-bottom: 15px; font-size: 12px; color: var(--text-sub); font-weight: bold; }
+
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
+        .tab-btn { padding: 12px 25px; border: none; background: var(--bg-panel); border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--text-sub); border: 1px solid var(--border); }
+        .tab-btn.active { background: var(--bg-gradient); color: white; border: none; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body data-theme="light">
+
+<div id="alert-overlay">
+    <div class="alert-box">
+        <h2 style="color:var(--danger)">⚠️ ESTOQUE BAIXO</h2>
+        <p id="alert-msg" style="color: var(--text-main)"></p>
+        <button class="btn-main" onclick="document.getElementById('alert-overlay').style.display='none'">ENTENDIDO</button>
+    </div>
+</div>
+
+<div class="container">
+    <header>
+        <div class="header-logo">
+            <span style="font-size: 30px;">🍹</span>
+            <span class="logo-text">AM BEBIDAS</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" id="theme-icon">🌙</button>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" id="btn-t1" onclick="switchTab('estoque')">📦 Estoque</button>
+        <button class="tab-btn" id="btn-t2" onclick="switchTab('vendas')">📊 Finanças</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="card"><h3>Em Estoque</h3><p id="d-est">0</p></div>
+        <div class="card"><h3>Vendidos</h3><p id="d-ven">0</p></div>
+        <div class="card"><h3>Faturamento</h3><p id="d-fat" style="color:var(--success)">R$ 0,00</p></div>
+        <div class="card"><h3>Lucro Total</h3><p id="d-luc">R$ 0,00</p></div>
+    </div>
+
+    <div id="section-estoque" class="content-grid">
+        <div class="panel">
+            <h2 id="form-title" style="margin-top:0; font-size:18px">Nova Bebida</h2>
+            <input type="hidden" id="edit-idx">
+            <input type="hidden" id="p-img-base64">
+            
+            <label>NOME DA MARCA / PRODUTO</label>
+            <input type="text" id="p-nome" placeholder="Ex: Coca Cola">
+            
+            <div style="display:flex; gap:10px">
+                <div style="flex:1"><label>CUSTO</label><input type="number" id="p-custo" placeholder="0.00"></div>
+                <div style="flex:1"><label>VENDA</label><input type="number" id="p-venda" placeholder="0.00"></div>
+            </div>
+            
+            <label>QUANTIDADE INICIAL</label>
+            <input type="number" id="p-qtd" placeholder="0">
+            
+            <label>ALERTA DE ESTOQUE MÍNIMO</label>
+            <input type="number" id="p-min" value="5">
+
+            <label>LINK DA IMAGEM (URL)</label>
+            <input type="text" id="p-img-url" placeholder="http://exemplo.com/imagem.png">
+
+            <label>OU CARREGAR ARQUIVO</label>
+            <label for="p-file" class="file-label" id="file-status">📁 Selecionar arquivo</label>
+            <input type="file" id="p-file" accept="image/*" style="display: none;" onchange="handleFile(this)">
+            
+            <button class="btn-main" onclick="salvar()">CADASTRAR NO SISTEMA</button>
+        </div>
+
+        <div class="panel">
+            <h2 style="margin-top:0; font-size:18px">Inventário Ativo</h2>
+            <table>
+                <thead><tr style="font-size:11px; color:var(--text-sub)"><th>MARCA</th><th>QTD</th><th>VENDAS</th><th>AÇÕES</th></tr></thead>
+                <tbody id="corpo-tabela"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="section-vendas" class="panel hidden">
+        <h2>Resumo Financeiro por Produto</h2>
+        <table>
+            <thead><tr style="font-size:11px; color:var(--text-sub)"><th>ITEM</th><th>VENDIDOS</th><th>RECEITA</th><th>LUCRO</th></tr></thead>
+            <tbody id="corpo-financeiro"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let produtos = JSON.parse(localStorage.getItem('ambebidas_final')) || [];
+
+    // --- LÓGICA DE TEMA ---
+    function toggleTheme() {
+        const body = document.body;
+        const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('ambebidas_theme', newTheme);
+        document.getElementById('theme-icon').innerText = newTheme === 'light' ? '🌙' : '☀️';
+    }
+
+    // Carregar tema salvo
+    const savedTheme = localStorage.getItem('ambebidas_theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    document.getElementById('theme-icon').innerText = savedTheme === 'light' ? '🌙' : '☀️';
+
+    function switchTab(aba) {
+        document.getElementById('section-estoque').classList.toggle('hidden', aba !== 'estoque');
+        document.getElementById('section-vendas').classList.toggle('hidden', aba !== 'vendas');
+        document.getElementById('btn-t1').classList.toggle('active', aba === 'estoque');
+        document.getElementById('btn-t2').classList.toggle('active', aba === 'vendas');
+    }
+
+    function handleFile(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('p-img-base64').value = e.target.result;
+                document.getElementById('p-img-url').value = "";
+                document.getElementById('file-status').innerText = "✅ Arquivo carregado!";
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function salvar() {
+        const idx = document.getElementById('edit-idx').value;
+        const nomeInput = document.getElementById('p-nome').value;
+        const manualImg = document.getElementById('p-img-base64').value;
+        const urlImg = document.getElementById('p-img-url').value;
+        
+        const brandQuery = nomeInput.toLowerCase().trim().split(' ')[0];
+
+        const item = {
+            nome: nomeInput,
+            custo: parseFloat(document.getElementById('p-custo').value) || 0,
+            venda: parseFloat(document.getElementById('p-venda').value) || 0,
+            qtd: parseInt(document.getElementById('p-qtd').value) || 0,
+            min: parseInt(document.getElementById('p-min').value) || 5,
+            logo: manualImg || urlImg || `https://www.google.com/s2/favicons?sz=128&domain=${brandQuery}.com`,
+            vendidos: (idx === "") ? 0 : produtos[idx].vendidos
+        };
+
+        if(!item.nome) return alert("Por favor, digite o nome do produto.");
+
+        if (idx === "") produtos.push(item);
+        else { item.vendidos = produtos[idx].vendidos; produtos[idx] = item; }
+
+        persistir();
+    }
+
+    function ajustar(idx, op) {
+        if (op === '+') {
+            if (produtos[idx].qtd > 0) {
+                produtos[idx].qtd--;
+                produtos[idx].vendidos++;
+                if (produtos[idx].qtd <= produtos[idx].min) {
+                    document.getElementById('alert-msg').innerText = `O estoque de ${produtos[idx].nome} está baixo (${produtos[idx].qtd} un).`;
+                    document.getElementById('alert-overlay').style.display = 'flex';
+                }
+            }
+        } else if (produtos[idx].vendidos > 0) {
+            produtos[idx].qtd++;
+            produtos[idx].vendidos--;
+        }
+        persistir();
+    }
+
+    function editar(i) {
+        const p = produtos[i];
+        document.getElementById('edit-idx').value = i;
+        document.getElementById('p-nome').value = p.nome;
+        document.getElementById('p-custo').value = p.custo;
+        document.getElementById('p-venda').value = p.venda;
+        document.getElementById('p-qtd').value = p.qtd;
+        document.getElementById('p-min').value = p.min;
+        if (p.logo.startsWith('data:')) {
+            document.getElementById('p-img-base64').value = p.logo;
+            document.getElementById('p-img-url').value = "";
+        } else {
+            document.getElementById('p-img-url').value = p.logo;
+            document.getElementById('p-img-base64').value = "";
+        }
+        document.getElementById('form-title').innerText = "Editando Registro";
+    }
+
+    function persistir() {
+        localStorage.setItem('ambebidas_final', JSON.stringify(produtos));
+        document.getElementById('edit-idx').value = "";
+        document.getElementById('p-img-base64').value = "";
+        document.getElementById('form-title').innerText = "Nova Bebida";
+        document.getElementById('file-status').innerText = "📁 Selecionar arquivo";
+        document.querySelectorAll('input').forEach(i => { if(i.type !== 'file') i.value = "" });
+        renderizar();
+    }
+
+    function renderizar() {
+        const tbE = document.getElementById('corpo-tabela');
+        const tbF = document.getElementById('corpo-financeiro');
+        tbE.innerHTML = ''; tbF.innerHTML = '';
+        let sE=0, sV=0, sF=0, sL=0;
+
+        produtos.forEach((p, i) => {
+            const fat = p.vendidos * p.venda;
+            const luc = p.vendidos * (p.venda - p.custo);
+            sE+=p.qtd; sV+=p.vendidos; sF+=fat; sL+=luc;
+
+            const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.nome)}&background=random&color=fff&size=128&bold=true`;
+
+            tbE.innerHTML += `<tr>
+                <td>
+                    <div class="item-brand">
+                        <div class="brand-frame">
+                            <img src="${p.logo}" class="brand-img" onerror="this.src='${fallback}'">
+                        </div>
+                        <span>${p.nome}</span>
+                    </div>
+                </td>
+                <td>${p.qtd}</td>
+                <td>
+                    <div class="selector">
+                        <button class="btn-step" onclick="ajustar(${i}, '-')">-</button>
+                        <div class="val-vendas">${p.vendidos}</div>
+                        <button class="btn-step plus" onclick="ajustar(${i}, '+')">+</button>
+                    </div>
+                </td>
+                <td>
+                    <button style="border:none; background:none; cursor:pointer;" onclick="editar(${i})">✏️</button>
+                    <button style="border:none; background:none; cursor:pointer; color:var(--danger)" onclick="produtos.splice(${i}, 1); persistir();">🗑️</button>
+                </td>
+            </tr>`;
+
+            tbF.innerHTML += `<tr>
+                <td>${p.nome}</td><td>${p.vendidos} un</td>
+                <td style="color:var(--primary)">R$ ${fat.toFixed(2)}</td>
+                <td style="color:var(--success)">R$ ${luc.toFixed(2)}</td>
+            </tr>`;
+        });
+
+        document.getElementById('d-est').innerText = sE;
+        document.getElementById('d-ven').innerText = sV;
+        document.getElementById('d-fat').innerText = `R$ ${sF.toFixed(2)}`;
+        document.getElementById('d-luc').innerText = `R$ ${sL.toFixed(2)}`;
+    }
+    renderizar();
+</script>
+</body>
+</html>
