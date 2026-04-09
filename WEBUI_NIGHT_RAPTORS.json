@@ -11,7 +11,7 @@
 			"iconposition": 3,
 			"icontextcolor": 8,
 			"openonstart": true,
-			"openonstartonlynewplayers": true,
+			"openonstartonlynewplayers": false,
 			"updateinterval": 12
 		},
 		"tabs": [
@@ -32,7 +32,7 @@
 				"imageurl": "https://i.imgur.com/edMJ5qz.png",
 				"content": [
 					{
-						"title": "INI settings:",
+						"title": "Donate",
 						"text": "SOBREVIVA. EVOLUA. APOIE.\r\nSeu donate ajuda a manter o mundo vivo, os dinos rodando.\r\nQuem fortalece o servidor… cresce nele \r\nO donate mantém o server 24h, sem lag e com suporte ativo.\r\nQuem ajuda o server, o server ajuda de volta.\r\nuse o botão pix abaixo para doações."
 					},
 					{
@@ -48,18 +48,7 @@
 				"content": [
 					{
 						"title": "Comandos",
-						"text": "/engrams\r\nDesbloqueia os engramas até os pontos disponiveis.\r\n\r\n/mindwipe\r\nusa um tonico de lavagem cerebral para reset dos status e pontos de engramas.\r\n\r\n/store\r\nAdiciona itens ao cofre padrão. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take\r\nObtém todos os itens do cofre padrão.\r\n/store {nome}\r\nAdiciona itens ao cofre {nome}. Pode ser usado várias vezes para adicionar mais itens ao mesmo cofre.\r\n/take {nome}\r\nObtém itens do cofre {nome}.\r\n/list\r\nLista todos os cofres disponíveis.\r\n\r\n"
-					}
-				]
-			},
-			{
-				"layout": 1,
-				"buttontext": "RATES",
-				"imageurl": "https://wallpapers.com/images/hd/farm-desktop-8iqywvy4ap9mwvum.jpg",
-				"content": [
-					{
-						"title": "RATES",
-						"text": "O que está configurado\r\n\r\nXP 3x \r\n\r\nDoma 3x\r\n\r\nFarm 3x\r\n\r\nBreed 3x\r\n\r\nLoot 100% vanilla\r\n\r\nStatus 100% oficiais\r\n\r\nPvE sem decay\r\n\r\nImprint instantaneo"
+						"text": "/engrams\r\nDesbloqueia os engramas até os pontos disponiveis.\r\n\r\n/mindwipe\r\nusa um tonico de lavagem cerebral para reset dos status e pontos de engramas."
 					}
 				]
 			}
