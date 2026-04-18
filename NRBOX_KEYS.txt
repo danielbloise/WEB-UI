@@ -2,6 +2,6 @@
 [test]
 [B9DzVvOfj8SRd8servSEurbPIjgHeW2zKYnk]
 test
-[Crie Um Cluster2]
+[Crie Um Cluster]
 [oLi47qbLOX9pY1oc4yPXPBTKe0cIgh4QTMhF2]
 [oLi47qbLOX9pY1oc4yPXPBTKe0cIgh4QTMhF]
